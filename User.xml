@@ -1,0 +1,30 @@
+<users>
+    <user type = "administrator">
+        <name>Juan</name>
+        <lastName>Garro</lastName>
+        <age>64</age>
+        <identity>123</identity>
+        <password>holamundo</password>
+    </user>
+    <user type = "client">
+        <name>Adrian</name>
+        <lastName>Villalobos</lastName>
+        <age>34</age>
+        <identity>1234</identity>
+        <password>holamundo</password>
+    </user>    
+    <user type = "administrator">
+        <name>Farlen</name>
+        <lastName>Villalobos</lastName>
+        <age>25</age>
+        <identity>12345</identity>
+        <password>holamundo</password>
+    </user>    
+    <user type = "client">
+        <name>Danilo</name>
+        <lastName>Salazar</lastName>
+        <age>23</age>
+        <identity>123456</identity>
+        <password>holamundo</password>
+    </user>
+</users>
