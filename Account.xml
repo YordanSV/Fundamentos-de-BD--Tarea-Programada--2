@@ -1,13 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <Accounts>
     <account>
         <accountNumber>52343242</accountNumber>
         <identity>123</identity>
-        <amount>0</amount>
+        <amount>-21500</amount>
     </account>
     <account>
         <accountNumber>1312213</accountNumber>
         <identity>1234</identity>
-        <amount>0</amount>
+        <amount>100</amount>
     </account>
     <account>
         <accountNumber>23423</accountNumber>
