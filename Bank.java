@@ -37,10 +37,5 @@ public class Bank {
         }
     }
 
-    public static void main(String[] args) {
-        Bank bank = new Bank();
-        for (int i = 0; i < bank.accounts.size(); i++) {
-            System.out.println(bank.accounts.get(i).getAccountNumber());
-        }
-    }
+    
 }
