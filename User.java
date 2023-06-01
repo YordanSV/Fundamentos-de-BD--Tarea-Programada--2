@@ -12,11 +12,19 @@ import javax.xml.xpath.XPathConstants;
  * User
  */
 public class User {
-    String name;
-    String lastName;
-    String edad;
-    String identity;
-    String password;
+    public String name;
+    public String lastName;
+    public String age;
+    public String identity;
+    public String password;
+
+    public User(String name, String lastName, String age, String identity, String password){
+        this.name = name;
+        this.lastName = lastName;
+        this.age = age;
+        this.identity = identity;
+        this.password = password;
+    }
     
     public static boolean permissionAccess(String identity) { // Permisos de administrador
         try {
