@@ -74,7 +74,6 @@ public class Client extends User {
         transfers.add(transfer);
         transfer.modifyTransfer(transfers);
 
-
         for (int i = 0; i < accounts.size(); i++) {
             if (accounts.get(i).getIdentity().equals(this.identity)) {
                 accounts.get(i).setAmount("-" + amount);
