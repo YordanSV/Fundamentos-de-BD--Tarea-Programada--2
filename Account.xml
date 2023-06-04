@@ -3,17 +3,17 @@
     <account>
         <accountNumber>52343242</accountNumber>
         <identity>123</identity>
-        <amount>-21500</amount>
+        <amount>16500</amount>
     </account>
     <account>
         <accountNumber>1312213</accountNumber>
         <identity>1234</identity>
-        <amount>100</amount>
+        <amount>2100</amount>
     </account>
     <account>
         <accountNumber>23423</accountNumber>
         <identity>12345</identity>
-        <amount>0</amount>
+        <amount>1700</amount>
     </account>
     <account>
         <accountNumber>4543533</accountNumber>
