@@ -25,6 +25,10 @@ public class User {
         this.identity = identity;
         this.password = password;
     }
+
+    public String getName(){
+        return name;
+    }
     
     public static boolean permissionAccess(String identity) { // Permisos de administrador
         try {
