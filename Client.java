@@ -33,11 +33,7 @@ public class Client extends User {
 
     public void realizarRetiro(List<Account> accounts) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Cuanto desea retirar   $");
-        if(!scanner.hasNextInt()){
-            System.out.println("Ingrese un valor valido");
-            realizarRetiro(accounts);
-        }
+        System.out.print("Cuanto desea retirar?   $");
         String amount = scanner.nextLine();
         for (int i = 0; i < accounts.size(); i++) {
             if (accounts.get(i).getIdentity().equals(this.identity)) {
@@ -54,11 +50,7 @@ public class Client extends User {
 
     public void realizarDeposito(List<Account> accounts) {
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Cuanto desea Depositar   $");
-        if(!scanner.hasNextInt()){
-            System.out.println("Ingrese un valor valido \n");
-            realizarDeposito(accounts);
-        }
+        System.out.print("Cuanto desea Depositar?   $");
         String amount = scanner.nextLine();
 
         for (int i = 0; i < accounts.size(); i++) {
@@ -70,6 +62,31 @@ public class Client extends User {
         }
     }
 
+    
+    public void realizarTraslado(List<Account> accounts) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Cuanto desea Trasladar?   $");
+        String amount = scanner.nextLine();
+        System.out.println("Digite el numero de identificacion del destino");
+        String destinationIdentity = scanner.nextLine();
+        Transfer transfer = new Transfer(destinationIdentity, this.identity, amount);
+        List<Transfer> transfers = transfer.getListTransfers();
+        transfers.add(transfer);
+        transfer.modifyTransfer(transfers);
+
+
+        for (int i = 0; i < accounts.size(); i++) {
+            if (accounts.get(i).getIdentity().equals(this.identity)) {
+                accounts.get(i).setAmount("-" + amount);
+                modifyAmount(accounts);
+            }
+            if (accounts.get(i).getIdentity().equals(destinationIdentity)) {
+                accounts.get(i).setAmount(amount);
+                modifyAmount(accounts);
+            }
+        }
+    }
+    
     public void modifyAmount(List<Account> accounts) { // modificar Account.xml para editar el monto                                                                        
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
