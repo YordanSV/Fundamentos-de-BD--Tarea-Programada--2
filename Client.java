@@ -9,6 +9,9 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 
 import java.io.*;
 import java.util.List;
@@ -19,15 +22,29 @@ public class Client extends User {
         super(name, lastName, age, identity, password);
     }
 
-    public static void main(String[] args) throws IOException { //Main para probar las funciones
-        Bank bank = new Bank();
-        Client client = new Client("Juan", "Garro", "64", "123", "holamundo");
-        client.realizarRetiro(bank.accounts, "1500");
+    public void realizarConsulta(List<Account> accounts){
+        for (int i = 0; i < accounts.size(); i++) {
+            if(accounts.get(i).getIdentity().equals(this.identity)){
+                System.out.println("Usted tiene un saldo de $" + accounts.get(i).getAmount() + "\n");
+                return;
+            }
+        }
     }
 
-    public void realizarRetiro(List<Account> accounts, String amount) throws IOException {
+    public void realizarRetiro(List<Account> accounts) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Cuanto desea retirar   $");
+        if(!scanner.hasNextInt()){
+            System.out.println("Ingrese un valor valido");
+            realizarRetiro(accounts);
+        }
+        String amount = scanner.nextLine();
         for (int i = 0; i < accounts.size(); i++) {
             if (accounts.get(i).getIdentity().equals(this.identity)) {
+                if(Integer.parseInt(amount) > Integer.parseInt(accounts.get(i).getAmount())){
+                    System.out.println("Fondos insuficientes \n");
+                    return;
+                }
                 accounts.get(i).setAmount("-" + amount);
                 modifyAmount(accounts);
                 return;
@@ -35,9 +52,16 @@ public class Client extends User {
         }
     }
 
-    public void realizarDeposito(List<Account> accounts, String amount) throws IOException {
+    public void realizarDeposito(List<Account> accounts) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Cuanto desea Depositar   $");
+        if(!scanner.hasNextInt()){
+            System.out.println("Ingrese un valor valido \n");
+            realizarDeposito(accounts);
+        }
+        String amount = scanner.nextLine();
+
         for (int i = 0; i < accounts.size(); i++) {
-            System.out.println(this.identity);
             if (accounts.get(i).getIdentity().equals(this.identity)) {
                 accounts.get(i).setAmount(amount);
                 modifyAmount(accounts);
@@ -46,7 +70,7 @@ public class Client extends User {
         }
     }
 
-    public void modifyAmount(List<Account> accounts) throws IOException { // modificar Account.xml para editar el monto                                                                        
+    public void modifyAmount(List<Account> accounts) { // modificar Account.xml para editar el monto                                                                        
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -60,8 +84,6 @@ public class Client extends User {
             }
             // Crear nuevos nodos de cuenta con los valores de la lista
             for (Account nodo : accounts) {
-                System.out.println(nodo.getIdentity());
-
                 Element cuenta = document.createElement("account");
 
                 Element accountNumber = document.createElement("accountNumber");
@@ -84,14 +106,14 @@ public class Client extends User {
             Transformer transformer = transformerFactory.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes");
             transformer.transform(new DOMSource(document), new StreamResult(new File("Account.xml")));
-            borrarLineasBlanco(accounts);
+            borrarLineasBlancas();
             System.out.println("Archivo XML modificado exitosamente.");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void borrarLineasBlanco(List<Account> accounts) throws IOException {
+    public void borrarLineasBlancas() throws IOException {
         try {
             File inputFile = new File("Account.xml");
     
@@ -117,12 +139,9 @@ public class Client extends User {
             fileWriter.write(stringBuilder.toString());
             fileWriter.close();
 
-            System.out.println("Archivo XML modificado exitosamente.");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void showMenu() {
-
-    }
+    
 }
