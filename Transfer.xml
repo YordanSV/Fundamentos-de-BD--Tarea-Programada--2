@@ -1,13 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <transfers>
-    <transfer>
-        <destinatario>12345</destinatario>
-        <remitente>123</remitente>
-        <monto>700</monto>
-    </transfer>
-    <transfer>
-        <destinatario>1234</destinatario>
-        <remitente>123</remitente>
-        <monto>500</monto>
-    </transfer>
+
 </transfers>

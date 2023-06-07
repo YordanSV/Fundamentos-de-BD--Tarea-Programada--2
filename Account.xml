@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Accounts>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Accounts>
     <account>
         <accountNumber>52343242</accountNumber>
         <identity>123</identity>
-        <amount>16500</amount>
+        <amount>0</amount>
     </account>
     <account>
         <accountNumber>1312213</accountNumber>
         <identity>1234</identity>
-        <amount>2100</amount>
+        <amount>0</amount>
     </account>
     <account>
         <accountNumber>23423</accountNumber>
         <identity>12345</identity>
-        <amount>1700</amount>
+        <amount>0</amount>
     </account>
     <account>
         <accountNumber>4543533</accountNumber>
         <identity>123456</identity>
         <amount>0</amount>
     </account>
+    
 </Accounts>

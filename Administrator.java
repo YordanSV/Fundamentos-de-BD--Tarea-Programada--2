@@ -18,11 +18,6 @@ public class Administrator extends User {
         super(name, lastName, age, identity, password);
     }
 
-    public static void main(String[] args) throws ParserConfigurationException, IOException, SAXException, TransformerException {
-        Administrator administrator = new Administrator("Juan", "Garro", "64", "123", "holamundo");
-        administrator.crearUsuario();
-        administrator.eliminarUsuario();
-    }
 
     public void modificarUsuario()  throws ParserConfigurationException, IOException, SAXException, TransformerException {
         File inputFile = new File("user.xml");
@@ -66,6 +61,7 @@ public class Administrator extends User {
         DOMSource source = new DOMSource(document);
         StreamResult result = new StreamResult(new File("user.xml"));
         transformer.transform(source, result);
+        System.out.println("Archivo XML modificado exitosamente.");
     }
 
     public void eliminarUsuario() throws ParserConfigurationException, IOException, SAXException, TransformerException {
@@ -86,6 +82,8 @@ public class Administrator extends User {
                 String respuesta = scanner.nextLine();
                 if(respuesta.equals("n")){return;}
                 rootElement.removeChild(user);
+                Account account =  new Account();
+                account.eliminarCuenta(identity);
                 break;
             }
         }
@@ -95,6 +93,7 @@ public class Administrator extends User {
         DOMSource source = new DOMSource(document);
         StreamResult result = new StreamResult(new File("user.xml"));
         transformer.transform(source, result);
+        System.out.println("Archivo XML modificado exitosamente.");
     }
 
     public void crearUsuario() throws ParserConfigurationException, IOException, SAXException, TransformerException {
@@ -130,7 +129,9 @@ public class Administrator extends User {
         ElementIdentity.setTextContent(identity);
         Element ElementPassword = document.createElement("password");
         ElementPassword.setTextContent(password);
-
+        Account account = new Account();
+        account.crearCuenta(identity);
+        
         newUser.appendChild(ElementName);
         newUser.appendChild(ElementLastName);
         newUser.appendChild(ElementAge);
@@ -144,6 +145,31 @@ public class Administrator extends User {
         DOMSource source = new DOMSource(document);
         StreamResult result = new StreamResult(new File("user.xml"));
         transformer.transform(source, result);
+        System.out.println("Archivo XML modificado exitosamente.");
     }
 
+    public void mostrarUsuarios() throws ParserConfigurationException, IOException, SAXException {
+        File inputFile = new File("user.xml");
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(inputFile);
+        Element rootElement = document.getDocumentElement();
+        NodeList userList = rootElement.getElementsByTagName("user");
+
+        for (int i = 0; i < userList.getLength(); i++) {
+            Element user = (Element) userList.item(i);
+            String userType = user.getAttribute("type");
+            String name = user.getElementsByTagName("name").item(0).getTextContent();
+            String lastName = user.getElementsByTagName("lastName").item(0).getTextContent();
+            String age = user.getElementsByTagName("age").item(0).getTextContent();
+            String identity = user.getElementsByTagName("identity").item(0).getTextContent();
+
+            System.out.print("User Type: " + userType + ", ");
+            System.out.print("Name: " + name + ", ");
+            System.out.print("Last Name: " + lastName + ", ");
+            System.out.print("Age: " + age + ", ");
+            System.out.println("Identity: " + identity);
+            System.out.println("-----------------------------------------------------------------------------------");
+        }
+    }
 }

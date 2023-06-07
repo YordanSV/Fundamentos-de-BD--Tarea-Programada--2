@@ -3,14 +3,16 @@
  * Client
  */
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
+
 import javax.xml.parsers.*;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.util.Scanner;
 
 import java.io.*;
@@ -31,7 +33,7 @@ public class Client extends User {
         }
     }
 
-    public void realizarRetiro(List<Account> accounts) {
+    public void realizarRetiro(List<Account> accounts) throws ParserConfigurationException, IOException, SAXException, TransformerException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Cuanto desea retirar?   $");
         String amount = scanner.nextLine();
@@ -43,16 +45,19 @@ public class Client extends User {
                 }
                 accounts.get(i).setAmount("-" + amount);
                 modifyAmount(accounts);
+                Transaction retiro = new Transaction(this.identity,"Retiro",amount);
+                retiro.crearTransaccion();
                 return;
             }
         }
     }
 
-    public void realizarDeposito(List<Account> accounts) {
+    public void realizarDeposito(List<Account> accounts) throws ParserConfigurationException, IOException, SAXException, TransformerException {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Cuanto desea Depositar?   $");
         String amount = scanner.nextLine();
-
+        Transaction deposito = new Transaction(this.identity,"Deposito",amount);
+        deposito.crearTransaccion();
         for (int i = 0; i < accounts.size(); i++) {
             if (accounts.get(i).getIdentity().equals(this.identity)) {
                 accounts.get(i).setAmount(amount);
@@ -67,23 +72,30 @@ public class Client extends User {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Cuanto desea Trasladar?   $");
         String amount = scanner.nextLine();
+        for (Account account : accounts) {
+            if (Integer.parseInt(amount) > Integer.parseInt(account.getAmount()) && account.getIdentity().equals(this.identity)) {
+                System.out.println("Fondos insuficientes \n");
+                return;
+            }
+        }
         System.out.println("Digite el numero de identificacion del destino");
         String destinationIdentity = scanner.nextLine();
         Transfer transfer = new Transfer(destinationIdentity, this.identity, amount);
         List<Transfer> transfers = transfer.getListTransfers();
         transfers.add(transfer);
-        transfer.modifyTransfer(transfers);
 
-        for (int i = 0; i < accounts.size(); i++) {
-            if (accounts.get(i).getIdentity().equals(this.identity)) {
-                accounts.get(i).setAmount("-" + amount);
+        for (Account account : accounts) {
+            if (account.getIdentity().equals(this.identity)) {
+                account.setAmount("-" + amount);
                 modifyAmount(accounts);
             }
-            if (accounts.get(i).getIdentity().equals(destinationIdentity)) {
-                accounts.get(i).setAmount(amount);
+        
+            if (account.getIdentity().equals(destinationIdentity)) {
+                account.setAmount(amount);
                 modifyAmount(accounts);
             }
         }
+        transfer.modifyTransfer(transfers);
     }
     
     public void modifyAmount(List<Account> accounts) { // modificar Account.xml para editar el monto                                                                        
